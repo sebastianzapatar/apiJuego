@@ -22,6 +22,25 @@ export default {
             image:'https://via.placeholder.com/250',
             isValidQuestion:false
         }
+    },
+    methods:{
+        async getAnswer(){
+            this.answer='Loading bro';
+            const {answer,image}=await (await fetch('https://yesno.wtf/api')).json();
+            this.answer=answer;
+            this.image=image;
+        }
+    },
+    watch:{
+        question(value,olValue){
+            if(value.includes('?')){
+                this.isValidQuestion=true;
+                this.getAnswer();
+            }else{
+                this.isValidQuestion=false;
+                this.image='https://via.placeholder.com/250';
+            }
+        }
     }
 }
 </script>
